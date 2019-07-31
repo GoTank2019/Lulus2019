@@ -59,9 +59,9 @@ class AuthCompanyController extends Controller
       ];
 
       $company = Company::where('email', $request->email)->first();
-        if(!$company->email_verified_at){
-            return back()->with('error', 'Login Gagal, Verifikasi Email Dahulu');
-        }
+        // if(!$company->email_verified_at){
+        //     return back()->with('error', 'Login Gagal, Verifikasi Email Dahulu');
+        // }
 
       if (!Auth::guard('company')->attempt($credential, $request->member)) {
           return back()->withInput($request->only('email','remember'));

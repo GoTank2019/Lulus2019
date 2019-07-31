@@ -37,6 +37,13 @@
           <span> Data Supir</span>
         </a>
       </li>
+
+      <li>
+        <a href="{{ url('users') }}">
+          <i class="fa fa-user"></i>
+          <span> Data User</span>
+        </a>
+      </li>
   </section>
   <!-- /.sidebar -->
 </aside>

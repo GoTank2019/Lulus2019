@@ -59,6 +59,10 @@ Route::group(['prefix' => '/'], function(){
   Route::get('driver/{drivers}', 'Company\DriverController@show')->name('driver.show');
   Route::get('/export', 'Company\DriverController@export')->name('driver.export');
 
+  //route CRUD User
+  Route::resource('users', 'Company\UserController');
+
+
 });
 
 //route Super Admin
