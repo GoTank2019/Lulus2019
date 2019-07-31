@@ -50,7 +50,8 @@
                           </td>
                           <td>{{ $data_pesan->tgl_pesan }}</td>
                           <td>{{ $data_pesan->jam->jam }}</td>
-                          <td>{{ $data_pesan->bukti_pembayaran }}</td>
+                          <td align ="center"><a href="{{asset('img/'.$data_pesan->bukti_pembayaran)}}" rel="zoom-id:zoom;opacity-reverse:true"> <img src="{{asset('img/'.$data_pesan->bukti_pembayaran)}}" width="45px"; height="45px";></a> </td>
+                          {{-- <td>{{ $data_pesan->bukti_pembayaran }}</td> --}}
                           <td>{{ $data_pesan->status }}</td>
                         </tr>
                       {{-- @endforeach --}}
@@ -85,7 +86,7 @@
     <!-- /.content -->
 @endsection
 
-@section('chartJS')
+{{-- @section('chartJS')
   <script src="https://code.highcharts.com/highcharts.js"></script>
   <script>
     Highcharts.chart('grafikPesan', {
@@ -142,4 +143,4 @@
         }]
     });
   </script>
-@endsection
+@endsection --}}

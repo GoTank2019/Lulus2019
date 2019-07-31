@@ -56,7 +56,7 @@
           <br>
           <br>
           <p class="white-text">Pengguna Jasa bisa Download Aplikasi di bawah</p>
-          <button href="#" type="button" class="btn btn-primary btn-lg">Download App GoTank</button>
+          <button href="https://play.google.com/store/apps/details?id=com.tholab.black.go_tankuser" type="button" class="btn btn-primary btn-lg">Download App GoTank</button>
                         {{-- <a type="submit" class="white-btn" value="Submit" href="{{url('')}}">Login</a> --}}
                         {{-- <a type="button" class="white-btn" value="Register" href="#">Register</a> --}}
         </div>
