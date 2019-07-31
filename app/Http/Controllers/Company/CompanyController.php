@@ -24,14 +24,13 @@ class CompanyController extends Controller
 
     public function index(Request $request)
     {
-        // $company_id = Auth::user()->id;
         // $company = Company::find($company_id);
         // $data['drivers'] = $company->drivers()->get();
         // $datas['data_pesan'] = $company->pesans()->get();
+        $company_id = Auth::user()->id;
+        $data_pesan = Pesan::where('company_id', $company_id)->get();
 
-        $data_pesan = Pesan::all();
-
-        $datas[] = Pesan::count();
+        $datas[] = Pesan::where('company_id', $company_id)->count();
         // $datas = Pesan::sum('pesans')->get();
 
         return view('pages.company.dashboard', ['data_pesan' => $data_pesan, 'datas' => $datas]);

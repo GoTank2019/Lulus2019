@@ -44,18 +44,11 @@
         },
         xAxis: {
             categories: [
-            'Jan',
-            'Feb',
-            'Mar',
-            'Apr',
-            'May',
-            'Jun',
-            'Jul',
-            'Aug',
-            'Sep',
-            'Oct',
-            'Nov',
-            'Dec'
+            'Agustus',
+            'September',
+            'Oktober',
+            'November',
+            'Desember'
         ],
             crosshair: true
         },
@@ -82,8 +75,10 @@
         series: [{
             name: 'Pemesanan/Bulan',
             data: [{!! json_encode($datas) !!},
-            20,
-            15
+            0,
+            0,
+            0,
+            0
             ]
 
         }]
