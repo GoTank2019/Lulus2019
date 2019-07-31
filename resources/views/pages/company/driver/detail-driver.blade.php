@@ -10,8 +10,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            General Form Elements
-            <small>Preview</small>
+            Detail Driver
           </h1>
         </section>
     

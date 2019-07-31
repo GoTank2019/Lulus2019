@@ -16,11 +16,12 @@ class CreatePesansTable extends Migration
         Schema::defaultStringLength(191);
         Schema::create('pesans', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('nama_pemesan', 50)->nullable();
             $table->unsignedbigInteger('company_id')->nullable();
             $table->foreign('company_id')->references('id')->on('companies');
             $table->unsignedbigInteger('driver_id')->nullable();
             $table->foreign('driver_id')->references('id')->on('drivers');
-            $table->unsignedbigInteger('user_id');
+            $table->unsignedbigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->date('tgl_pesan');
             $table->unsignedbigInteger('jam_id');

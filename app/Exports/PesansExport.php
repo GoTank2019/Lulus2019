@@ -17,8 +17,10 @@ class PesansExport implements FromCollection, WithMapping, WithHeadings
     */
     public function collection()
     {
-        return Pesan::all();
-        // $company_id = Auth::user()->id;
+        $company_id = Auth::user()->id;
+        $pesans = Pesan::where('company_id', $company_id)->get();
+
+        return $pesans;
         // $company = Company::find($company_id);
         // $data['drivers'] = $company->drivers()->get();
         // $data['data_pesan'] = $company->pesans()->get();
@@ -27,7 +29,7 @@ class PesansExport implements FromCollection, WithMapping, WithHeadings
     public function map($pesans): array
     {
         return [
-            $pesans->company->name,
+            $pesans->user_id ? $pesans->user->name:$pesans->nama_pemesan,
             $pesans->tgl_pesan,
             $pesans->jam->jam,
             $pesans->bukti_pembayaran,
@@ -38,7 +40,7 @@ class PesansExport implements FromCollection, WithMapping, WithHeadings
     public function headings(): array
     {
         return [
-            'Nama Company',
+            'Nama Pemesan',
             'Tanggal Pemesanan',
             'Jam Pemesanan',
             'Struck Pembayaran',

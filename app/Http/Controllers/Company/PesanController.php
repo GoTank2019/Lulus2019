@@ -61,18 +61,17 @@ class PesanController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'company_id' => 'required',
+            'nama_pemesan' => 'required',
             'tgl_pesan' => 'required',
-            // 'jam_id' => 'required',
+            'jam' => 'required',
         ]);
 
         $data = [
-            'company_id'    => $request->company_id,
-            'user_id'       => $request->user_id,
+            'company_id'    => $request->user()->id,
+            'nama_pemesan'  => $request->nama_pemesan,
             'tgl_pesan'     => Carbon::parse($request->get('tgl_pesan')),
-            'jam_id'        => 1,
-            // 'jam_id'        => $request->jam,
-            'status' => $request->status,
+            'jam_id'        => $request->jam,
+            'status' => $request->status
             // 'deskripsi_pesan'   => $request->deskripsi_pesan,
         ];
 
@@ -137,50 +136,62 @@ class PesanController extends Controller
         $pesan_id = $request->id;
 
         $token = array();
+
+        $pesan = Pesan::find($pesan_id);
+        $pesan->driver_id = $request->driver_id;
+        $pesan->status = "Dikonfirmasi";
+
+        if ($pesan->save()){
+            if($pesan->user_id)
+                $this->sendNotif($pesan_id);
+            return redirect('pesan')->with('sukses', 'konfirmasi sukses');
+        } else {
+            return redirect('pesan')->with('error', 'konfirmasi error');
+        }
+        
+        // if ($result){
+            
+
+        //     return redirect('pesan')->with('error', 'konfirmasi error');
+        // } else {
+        //     return redirect('pesan')->with('error', 'konfirmasi error');
+        // }
+    }
+
+    private function sendNotif($pesan_id)
+    {
         $token_gcm = DB::table('pesans')
                 ->join('users','users.id','=','pesans.user_id')
                 ->select('users.token_gcm')
                 ->where('pesans.id',$pesan_id)
                 ->first()->token_gcm;
 
-            array_push($token,$token_gcm);
-            $apiKey = "AIzaSyC_47A3ViozzLxG91O4XZ12v-TEf20CDVI";
-            $fields = array(
-                'registration_ids'=>$token,
-                'data' => array(
-                    'title'=>"Pesan Baru",
-                    'body'=>"Pesanan Anda Telah Dikonfirmasi",
-                    'priority' => "high",
-                    'pesan_id' => $pesan_id
-                )
-            );
+        array_push($token,$token_gcm);
+        $apiKey = "AIzaSyC_47A3ViozzLxG91O4XZ12v-TEf20CDVI";
+        $fields = array(
+            'registration_ids'=>$token,
+            'data' => array(
+                'title'=>"Pesan Baru",
+                'body'=>"Pesanan Anda Telah Dikonfirmasi",
+                'priority' => "high",
+                'pesan_id' => $pesan_id
+            )
+        );
 
-            $header = array('Authorization:key='.$apiKey,'Content-Type:application/json');
+        $header = array('Authorization:key='.$apiKey,'Content-Type:application/json');
 
-            $url = "https://fcm.googleapis.com/fcm/send";
-            $ch = curl_init();
-            curl_setopt($ch,CURLOPT_URL,$url);
-            curl_setopt($ch,CURLOPT_POST,true);
-            curl_setopt($ch,CURLOPT_HTTPHEADER,$header);
-            curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+        $url = "https://fcm.googleapis.com/fcm/send";
+        $ch = curl_init();
+        curl_setopt($ch,CURLOPT_URL,$url);
+        curl_setopt($ch,CURLOPT_POST,true);
+        curl_setopt($ch,CURLOPT_HTTPHEADER,$header);
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
 
-            curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,false);
-            curl_setopt($ch,CURLOPT_POSTFIELDS,json_encode($fields));
-            $result = curl_exec($ch);
-            if ($result){
-                $pesan = Pesan::find($pesan_id);
-                $pesan->driver_id = $request->driver_id;
-                $pesan->status = "Dikonfirmasi";
+        curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,false);
+        curl_setopt($ch,CURLOPT_POSTFIELDS,json_encode($fields));
+        $result = curl_exec($ch);
 
-                if ($pesan->save()){
-                    
-                    return redirect('pesan')->with('sukses', 'konfirmasi sukses');
-                }
-
-                return redirect('pesan')->with('error', 'konfirmasi error');
-            } else {
-                return redirect('pesan')->with('error', 'konfirmasi error');
-            }
+        return $result;
     }
 
     /**

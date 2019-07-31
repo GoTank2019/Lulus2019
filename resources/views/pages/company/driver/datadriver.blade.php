@@ -52,8 +52,7 @@
               @endif
                             
         <h1>
-          Data Tables
-          <small>advanced tables</small>
+          Data Drivers
         </h1>
       </section>
   

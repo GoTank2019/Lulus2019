@@ -127,8 +127,8 @@
                             <select class="form-control" name="status" id="inputEmail3">
                               <option value="" style="display: none">--Pilih Status--</option>
                               <option value="Belum Dibayar">Belum Dibayar</option>
-                              <option value="Belum Dikonfirmasi">Belum Dikonfirmasi</option>
-                              <option value="Dikonfirmasi" selected>Dikonfirmasi</option>
+                              <option value="Belum Dikonfirmasi" selected>Belum Dikonfirmasi</option>
+                              <option value="Dikonfirmasi">Dikonfirmasi</option>
                               <option value="Sedang Dikerjakan">Sedang Dikerjakan</option>
                               <option value="Selesai">Selesai</option>
                               <option value="Batal">Batal</option>

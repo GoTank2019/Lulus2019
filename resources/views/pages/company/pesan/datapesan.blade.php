@@ -25,8 +25,7 @@
         </div>
         @endif
         <h1>
-          Data Tables
-          <small>advanced tables</small>
+          Data Pemesanan
         </h1>
       </section>
 
@@ -122,7 +121,7 @@
                   <thead>
                   <tr>
                     <th style="width: 10px">No</th>
-                    <th style="width: 40px">Company Name</th>
+                    <th style="width: 40px">Nama Pemesan</th>
                     {{-- <th style="width: 40px">Driver Name</th> --}}
                     <th style="width: 80px">Tgl Pesan</th>
                     <th style="width: 50px">Jam</th>
@@ -142,23 +141,29 @@
                         <tr>
                           <td>{{ $no++ }}</td>
                           <td>
-                            {{ $pesans->company->name }}
+                            {{ $pesans->user_id ? $pesans->user->name:$pesans->nama_pemesan }}
                           </td>
                           {{-- <td>
                             {{ $pesans->driver->name }}
                           </td> --}}
                           <td>{{ $pesans->tgl_pesan }}</td>
                           <td>{{ $pesans->jam->jam }}</td>
+                          @if($pesans->user_id)
                           <td align ="center"><a href="{{asset('img/'.$pesans->bukti_pembayaran)}}" rel="zoom-id:zoom;opacity-reverse:true"> <img src="{{asset('img/'.$pesans->bukti_pembayaran)}}" width="45px"; height="45px";></a> </td>
+                          @else
+                          <td class="text-center">-</td>
+                          @endif
                           {{-- <td>{{ $pesans->bukti_pembayaran }}</td> --}}
                           <td>{{ $pesans->status }}</td>
                           <td>
                               <form action="{{url('pesan/'.$pesans->id) }}" method="POST" class="text-center">
                                 @csrf
                                 @method('DELETE')
-                                <button type="button" class="btn btn-success btn-xs" onclick="showKonfirmasi({{ $pesans->id }})">
-                                  <i class="fa fa-check btn btn-success"></i>
-                                </button>
+                                @if($pesans->status=="Belum Dikonfirmasi")
+                                  <button type="button" class="btn btn-success btn-xs" onclick="showKonfirmasi({{ $pesans->id }})">
+                                    <i class="fa fa-check btn btn-success"></i>
+                                  </button>
+                                @endif
                                 <a href="{{url('pesan/'.$pesans->id.'') }}" class="fa fa-info btn btn-primary"></a>
                                 {{-- <a href="{{url('pesan/'.$pesans->id.'/edit') }}" class="fa fa-edit btn btn-warning"></a> --}}
                                 <button type="submit" class="fa fa-trash btn btn-danger"></button>
